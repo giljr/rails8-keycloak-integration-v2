@@ -1,64 +1,160 @@
-<!-- app/views/pages/index.html.erb -->
-<div style="margin-left: 20px;">
-    <h1>Welcome to <%= Rails.application.class.module_parent_name %>!</h1>
-
-    <p>Before making requests, please subscribe and log in at <a href="https://www.postman.com" target="_blank">Postman</a>.</p>
-
-    <h2>🔐 Available Endpoints</h2>
-
-    <h3>1. Retrieve a Token (Alice - user)</h3>
-    <pre>
-    POST http://127.0.0.1:8080/realms/quickstart/protocol/openid‑connect/token  
-    Content-Type: application/x-www-form-urlencoded
-
-    client_id=test-cli  
-    username=alice  
-    password=123  
-    grant_type=password
-    </pre>
-    <p><em>Post-response script in Postman:</em></p>
-    <pre>
-    let jsonData = pm.response.json();
-    pm.collectionVariables.set("access_token", jsonData.access_token);
-    </pre>
-
-    <h3>2. Call Secured Endpoint</h3>
-    <pre>
-    GET http://localhost:3000/secured  
-    Authorization: Bearer <access_token>
-    </pre>
-    <p><strong>Expected response:</strong></p>
-    <pre>
-    {
-    "message": "secured"
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Keycloak Secured App</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
     }
-    </pre>
 
-    <h3>3. Retrieve Admin Token</h3>
-    <pre>
-    POST http://127.0.0.1:8080/realms/quickstart/protocol/openid‑connect/token  
-    Content-Type: application/x-www-form-urlencoded
+    header {
+      background-color: #0066cc;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
 
-    client_id=test-cli  
-    username=admin  
-    password=123  
-    grant_type=password
-    </pre>
-    <p><em>Post-response script in Postman:</em></p>
-    <pre>
-    let jsonData = pm.response.json();
-    pm.collectionVariables.set("admin_access_token", jsonData.access_token);
-    </pre>
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
 
-    <h3>4. Call Admin Endpoint</h3>
-    <pre>
-    GET http://localhost:3000/admin  
-    Authorization: Bearer <admin_access_token>
-    </pre>
+    h1, h2, h3 {
+      color: #003366;
+    }
 
-    <h2>🛠 Using curl</h2>
-    <pre>
-    curl -H "Authorization: Bearer <access_token>" http://localhost:3000/secured
-    curl -H "Authorization: Bearer <admin_access_token>" http://localhost:3000/admin
-    </pre>
-</div>
+    pre {
+      background-color: #eee;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    a.button {
+      background-color: #0066cc;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    a.button:hover {
+      background-color: #004999;
+    }
+
+    section {
+      margin-bottom: 2rem;
+    }
+
+    .token-step {
+      margin-left: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🔐 Welcome to <%= Rails.application.class.module_parent_name %></h1>
+    <p>Secure your API access with <strong>Keycloak</strong> or test it directly using <a href="https://www.postman.com" target="_blank" style="color: #ffeb3b;">Postman</a>.</p>
+  </header>
+
+  <div class="button-container">
+    <a href="/login" class="button">🔓 Login with Keycloak</a>
+  </div>
+
+  <main>
+    <section>
+      <h2>📫 Prerequisites</h2>
+      <p>To use the API, you can:</p>
+      <ul>
+        <li>🔐 <strong>Log in via Keycloak</strong> using the button above</li>
+        <li>🧪 <strong>Test via Postman</strong> with credentials and access tokens below</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🧪 Available Endpoints & Tokens</h2>
+
+      <h3>1. Retrieve a Token (Alice - user)</h3>
+      <pre>
+POST http://127.0.0.1:8080/realms/quickstart/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=test-cli
+username=alice
+password=123
+grant_type=password
+      </pre>
+
+      <div class="token-step">
+        <p><em>Post-response script for Postman:</em></p>
+        <pre>
+let jsonData = pm.response.json();
+pm.collectionVariables.set("access_token", jsonData.access_token);
+        </pre>
+      </div>
+
+      <h3>2. Call Secured Endpoint</h3>
+      <pre>
+GET http://localhost:3000/secured
+Authorization: Bearer &lt;access_token&gt;
+      </pre>
+
+      <p><strong>Expected response:</strong></p>
+      <pre>
+{
+  "message": "secured"
+}
+      </pre>
+
+      <h3>3. Retrieve Admin Token</h3>
+      <pre>
+POST http://127.0.0.1:8080/realms/quickstart/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=test-cli
+username=admin
+password=123
+grant_type=password
+      </pre>
+
+      <div class="token-step">
+        <p><em>Post-response script for Postman:</em></p>
+        <pre>
+let jsonData = pm.response.json();
+pm.collectionVariables.set("admin_access_token", jsonData.access_token);
+        </pre>
+      </div>
+
+      <h3>4. Call Admin Endpoint</h3>
+      <pre>
+GET http://localhost:3000/admin
+Authorization: Bearer &lt;admin_access_token&gt;
+      </pre>
+    </section>
+
+    <section>
+      <h2>🛠 Using cURL</h2>
+      <pre>
+curl -H "Authorization: Bearer &lt;access_token&gt;" http://localhost:3000/secured
+curl -H "Authorization: Bearer &lt;admin_access_token&gt;" http://localhost:3000/admin
+      </pre>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,2 +1,7 @@
-<h1>Pages#secured</h1>
-<p>Find me in app/views/pages/secured.html.erb</p>
+<h1>User Access Granted</h1>
+<p>You are authorized as an <strong>user</strong>.</p>
+
+<p><a href="/"> 🏠️ Return home </a></p>
+
+<h2>Decoded Token Payload</h2>
+<pre><%= JSON.pretty_generate(@user_info) %></pre>

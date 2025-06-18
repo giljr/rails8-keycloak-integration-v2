@@ -3,8 +3,10 @@ Rails.application.routes.draw do
   get "secured", to: "pages#secured"
   get "admin", to: "pages#admin"
 
+  # Define your authentication routes
   get "/auth/callback", to: "sessions#callback"
   get "/secured", to: "secured#show"  # Example secured endpoint
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
