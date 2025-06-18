@@ -18,8 +18,10 @@ This project demonstrates how to integrate [Keycloak](https://www.keycloak.org/)
    cd rails8-keycloak-integration
    Set up environment variables (see .env.example):
    ```
-
-.ENV
+   ```bash
+      touch .env
+   ```
+   Paste inside:
 
 ```env
 
